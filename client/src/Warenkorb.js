@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
-//import styled from "styled-components/macro";
+import pickedCandyName from "./Start";
+import pickedCandyPrice from "./Start";
+import styled from "styled-components/macro";
 
 export default function Produkte() {
-  const [produkte, setProdukte] = useState([]);
-
-useEffect(() => {
-  fetch('http://localhost:8040/Produkte/get')
-    .then((response) => response.json())
-    .then((data) => setProdukte(data.reverse()))
-}, [])
-
   return (
-      <>  
-        <h1>Warenkorb</h1>
-        <ul>
-            {produkte.map(produkt => 
-            <li>
-                <h4>{produkt.name}</h4>
-                <p>{produkt.description} ({produkt.price}€)</p>
-            </li>)}
-        </ul>
-      </>
-  )}
+    <>
+      <ContentWrapper>
+        <p>
+          Your choice:
+          {pickedCandyName}...nomnomnom
+          {pickedCandyPrice} €.
+        </p>
+      </ContentWrapper>
+    </>
+  );
+}
+const ContentWrapper = styled.main`
+  padding: 12px;
+  overflow: scroll;
+
+  button {
+    background: hotpink;
+    border-radius: 10px;
+  }
+`;

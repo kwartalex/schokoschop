@@ -3,36 +3,48 @@ import styled from "styled-components/macro";
 
 export default function Produkte() {
   const [produkte, setProdukte] = useState([]);
-  const [selectedProdukte, setSelectedProdukte] = useState([0])
+  const [selectedProdukte, setSelectedProdukte] = useState();
 
-useEffect(() => {
-  fetch('http://localhost:8040/Produkte/get')
-    .then((response) => response.json())
-    .then((data) => setProdukte(data.reverse()))
-}, [])
+  const pickedCandyName = produkte.map((el) => el.name)[selectedProdukte];
+  const pickedCandyPrice = produkte.map((el) => el.price)[selectedProdukte];
+
+  useEffect(() => {
+    fetch("http://localhost:8040/Produkte/get")
+      .then((response) => response.json())
+      .then((data) => setProdukte(data.reverse()));
+  }, []);
 
   return (
-      <ContentWrapper>  
-        <h1>Productlist from API</h1>
-        <ul>
-            {produkte.map(produkt => 
-            <li>
-                <h4>{produkt.name}</h4>
-                <p>{produkt.description} ({produkt.price}€)</p>
-                <button>Add to cart</button>
-            </li>)}
-        </ul>
-      
-      </ContentWrapper>
-  )}
+    <ContentWrapper>
+      <h1>Productlist from API</h1>
+      <ul>
+        {produkte.map((produkt, index) => (
+          <li>
+            <h4>{produkt.name}</h4>
+            <p>
+              {produkt.description} ({produkt.price}€)
+            </p>
+            <button
+              key={produkte.produkt}
+              onClick={() => setSelectedProdukte(index)}
+            >
+              Add to cart
+            </button>
+          </li>
+        ))}
+      </ul>
+      {pickedCandyName}
+      {pickedCandyPrice}
+    </ContentWrapper>
+  );
+}
 
-  const ContentWrapper = styled.main`
+const ContentWrapper = styled.main`
   padding: 12px;
   overflow: scroll;
-  
+
   button {
     background: hotpink;
     border-radius: 10px;
   }
-`
-  
+`;
